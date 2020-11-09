@@ -5,7 +5,7 @@ with open("README.md", "r") as file:
 
 setup(name='imageZIP',
       version='1',
-      description='ZIP (encrypt) files and directories as image file',
+      description='Archive (encrypt) files and directories to image file',
       long_description=long_description,
       long_description_content_type="text/markdown",
       url='http://github.com/hermanTenuki/imageZIP/',
