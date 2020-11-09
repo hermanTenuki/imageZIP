@@ -1,0 +1,6 @@
+__pycache__/
+.idea/
+venv/
+build/
+dist/
+imageZIP.egg-info/

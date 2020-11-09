@@ -1,0 +1,4 @@
+include LICENSE README.md CHANGELOG.md
+recursive-exclude * *
+recursive-include imageZIP *
+recursive-exclude imageZIP/__pycache__ *
