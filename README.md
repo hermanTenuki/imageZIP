@@ -33,4 +33,5 @@ Only ```path``` attribute is necessary here, other settings can be omitted.
 
 - For ```zip``` and ```unzip``` you have to provide same ```scale``` and ```color_mode``` settings;
 - ```scale``` is have to be ```int > 0```;
-- Available ```color_mode```s are: ```bw```, ```heat_map```, ```heat_map_toxic```.
+- Available ```color_mode```s are: ```bw```, ```heat_map```, ```heat_map_toxic```;
+- For now, absolute paths for linux and mac are not tested, but it should work.
