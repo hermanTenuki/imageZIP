@@ -91,6 +91,42 @@ class TestBehavior(unittest.TestCase):
 
         os.remove(zip_path)
 
+    def test_abs_path_folder(self):
+        if os.name == 'nt':
+            os.mkdir('C:/test_imageZIP')
+            os.mkdir('C:/test_imageZIP/test folder/')
+            original_folder_name = 'C:/test_imageZIP/test folder/'
+            zip_path = 'C:/test_imageZIP/test folder_zip.png'
+        else:
+            os.mkdir('/test_imageZIP/')
+            os.mkdir('/test_imageZIP/test folder/')
+            original_folder_name = '/test_imageZIP/test folder/'
+            zip_path = '/test_imageZIP/test folder_zip.png'
+        path_file = os.path.join(original_folder_name, '0')
+        with open(path_file, 'w') as file:
+            file.write('testing 123')
+        with open(path_file, 'rb') as file:
+            text_file = file.read()
+
+        imageZIP.zip(original_folder_name)
+        self.assertTrue(os.path.exists(zip_path))
+        self.assertFalse(os.path.exists('test folder_zip.png'))
+
+        if os.name == 'nt':
+            shutil.rmtree(original_folder_name, ignore_errors=True)
+        else:
+            shutil.rmtree(original_folder_name, ignore_errors=True)
+
+        imageZIP.unzip(zip_path)
+        with open(path_file, 'rb') as file:
+            text_file_new = file.read()
+        self.assertEqual(text_file_new, text_file)
+
+        if os.name == 'nt':
+            shutil.rmtree('C:/test_imageZIP', ignore_errors=True)
+        else:
+            shutil.rmtree('/test_imageZIP/', ignore_errors=True)
+
 
 class TestSettings(unittest.TestCase):
     def _test_with_settings(self, *args, **kwargs):
@@ -126,7 +162,7 @@ class TestSettings(unittest.TestCase):
         self._test_with_settings(color_mode='bw')
         self._test_with_settings(color_mode='heat_map')
         self._test_with_settings(color_mode='heat_map_toxic')
-    
+
 
 if __name__ == '__main__':
     # imageZIP.unzip('tests/test folder_zip.png')
