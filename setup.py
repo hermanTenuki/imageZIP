@@ -4,7 +4,7 @@ with open("README.md", "r") as file:
     long_description = file.read()
 
 setup(name='imageZIP',
-      version='1',
+      version='2',
       description='Archive (encrypt) files and directories to image file',
       long_description=long_description,
       long_description_content_type="text/markdown",

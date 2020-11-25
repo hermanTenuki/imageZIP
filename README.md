@@ -12,7 +12,7 @@ Algorithm is pretty easy. If folder to zip is chosen, it will iterate through al
 
 This is an "imageZIP archive", containing this whole "imageZIP" repository.
  
-It was created with ```imageZIP.zip("imageZIP", scale=4)```.
+It was created with ```imageZIP.zip("imageZIP/", scale=4)```.
 
 You can actually download this image and unzip it with ```imageZIP.unzip("demo_zip.png", scale=4)```, it will create "imageZIP" folder with all repository files.
 
@@ -34,4 +34,4 @@ Only ```path``` attribute is necessary here, other settings can be omitted.
 - For ```zip``` and ```unzip``` you have to provide same ```scale``` and ```color_mode``` settings;
 - ```scale``` is have to be ```int > 0```;
 - Available ```color_mode```s are: ```bw```, ```heat_map```, ```heat_map_toxic```;
-- For now, absolute paths for linux and mac are not tested, but it should work.
+- Unexpected issues can occur if folders or files names contains ```\``` or ```/```.
