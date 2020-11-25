@@ -12,9 +12,9 @@ Algorithm is pretty easy. If folder to zip is chosen, it will iterate through al
 
 This is an "imageZIP archive", containing this whole "imageZIP" repository.
  
-It was created with ```imageZIP.zip("imageZIP/", scale=4)```.
+It was created with ```imageZIP.zip("some path/imageZIP/", scale=4)```.
 
-You can actually download this image and unzip it with ```imageZIP.unzip("demo_zip.png", scale=4)```, it will create "imageZIP" folder with all repository files.
+You can actually download this image and unzip it with ```imageZIP.unzip("some path/demo_zip.png", scale=4)```, it will create "imageZIP" folder with all repository files.
 
 ## How to use
 
@@ -27,11 +27,16 @@ Then you can use 2 available functions:
 - ```imageZIP.zip(path: str, scale: int = 1, color_mode: str = 'heat_map')```;
 - ```imageZIP.unzip(path: str, scale: int = 1, color_mode: str = 'heat_map')```.
 
-Only ```path``` attribute is necessary here, other settings can be omitted.
+Where:
+- ```path``` - path (```str```) to a single file or whole directory to "zip", or image file to "unzip";
+- ```scale```* - scale (```int```) of input or output image file. Default: ```1```;
+- ```color_mode```* - color mode (```str```) of input or output image file. Default: ```"heat_map"```.
+
+> *not necessary attributes, which can be omitted.
 
 #### Notes:
 
 - For ```zip``` and ```unzip``` you have to provide same ```scale``` and ```color_mode``` settings;
-- ```scale``` is have to be ```int > 0```;
-- Available ```color_mode```s are: ```bw```, ```heat_map```, ```heat_map_toxic```;
-- Unexpected issues can occur if folders or files names contains ```\``` or ```/```.
+- ```scale``` is have to be ```int >= 1```;
+- ```path``` can be absolute or relative;
+- Available ```color_mode```s are: ```bw```, ```heat_map```, ```heat_map_toxic```.
