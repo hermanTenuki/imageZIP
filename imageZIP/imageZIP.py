@@ -193,7 +193,7 @@ def encrypt_obj(path_base, path_relative, **kwargs):
         bts.append(1.)
 
         if not ON_WINDOWS:
-            path = path.replace(os.sep, '/')
+            path = path.replace(os.sep, '/').replace('\\', '/')
 
         with open(path, 'rb') as file:
             file_bytes = file.read()
