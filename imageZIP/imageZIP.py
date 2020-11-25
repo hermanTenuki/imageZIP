@@ -125,9 +125,11 @@ def decrypt_image(path, color_mode, scale, file_chosen):
                     decrypted_folder_path = b''.join(interval).decode('utf-8')
 
                     path_joined = os.path.join(path_to_save, decrypted_folder_path)
+
+                    if not ON_WINDOWS:
+                        path_joined = path_joined.replace(os.sep, '/').replace('\\', '/')
+
                     if not os.path.exists(path_joined):
-                        if not ON_WINDOWS:
-                            path_joined = path_joined.replace(os.sep, '/').replace('\\', '/')
                         os.mkdir(path_joined)
                     interval = []
                 elif bt == 2:
