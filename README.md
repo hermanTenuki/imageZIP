@@ -12,7 +12,7 @@ Algorithm is pretty easy. If folder to zip is chosen, it will iterate through al
 
 This is an "imageZIP archive", containing this whole "imageZIP" repository.
  
-It was created with ```imageZIP.zip("imageZIP", scale=4)```.
+It was created with ```imageZIP.zip("imageZIP/", scale=4)```.
 
 You can actually download this image and unzip it with ```imageZIP.unzip("demo_zip.png", scale=4)```, it will create "imageZIP" folder with all repository files.
 
