@@ -3,8 +3,10 @@ import io
 import os
 import math
 from pathlib import Path
+from sys import platform
 
 Image.MAX_IMAGE_PIXELS = None
+ON_WINDOWS = platform == 'win32'
 
 
 def _calculate_color(num, color_mode: str):
@@ -77,6 +79,9 @@ def decrypt_image(path, color_mode, scale, file_chosen):
 
     path_to_save = '/'.join(os.path.split(path)[:-1])
 
+    if not ON_WINDOWS:
+        path = path.replace(os.sep, '/')
+
     with open(path, 'rb') as file:
         img = file.read()
     img = Image.open(io.BytesIO(img))
@@ -106,7 +111,12 @@ def decrypt_image(path, color_mode, scale, file_chosen):
                         interval = []
                         continue
                     else:
-                        with open(os.path.join(path_to_save, decrypted_file_path), 'wb') as file:
+                        new_path = os.path.join(path_to_save, decrypted_file_path)
+
+                        if not ON_WINDOWS:
+                            new_path = new_path.replace(os.sep, '/')
+
+                        with open(new_path, 'wb') as file:
                             file.writelines(interval)
 
                         interval = []
@@ -116,8 +126,9 @@ def decrypt_image(path, color_mode, scale, file_chosen):
 
                     path_joined = os.path.join(path_to_save, decrypted_folder_path)
                     if not os.path.exists(path_joined):
+                        if not ON_WINDOWS:
+                            path_joined = path_joined.replace(os.sep, '/')
                         os.mkdir(path_joined)
-
                     interval = []
                 elif bt == 2:
                     end_pixel = True
@@ -178,6 +189,9 @@ def encrypt_obj(path_base, path_relative, **kwargs):
         return bts
     else:
         bts.append(1.)
+
+        if not ON_WINDOWS:
+            path = path.replace(os.sep, '/')
 
         with open(path, 'rb') as file:
             file_bytes = file.read()
