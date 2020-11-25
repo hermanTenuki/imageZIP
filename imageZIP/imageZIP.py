@@ -80,7 +80,7 @@ def decrypt_image(path, color_mode, scale, file_chosen):
     path_to_save = '/'.join(os.path.split(path)[:-1])
 
     if not ON_WINDOWS:
-        path = path.replace(os.sep, '/')
+        path = path.replace(os.sep, '/').replace('\\', '/')
 
     with open(path, 'rb') as file:
         img = file.read()
@@ -114,7 +114,7 @@ def decrypt_image(path, color_mode, scale, file_chosen):
                         new_path = os.path.join(path_to_save, decrypted_file_path)
 
                         if not ON_WINDOWS:
-                            new_path = new_path.replace(os.sep, '/')
+                            new_path = new_path.replace(os.sep, '/').replace('\\', '/')
 
                         with open(new_path, 'wb') as file:
                             file.writelines(interval)
@@ -127,7 +127,7 @@ def decrypt_image(path, color_mode, scale, file_chosen):
                     path_joined = os.path.join(path_to_save, decrypted_folder_path)
                     if not os.path.exists(path_joined):
                         if not ON_WINDOWS:
-                            path_joined = path_joined.replace(os.sep, '/')
+                            path_joined = path_joined.replace(os.sep, '/').replace('\\', '/')
                         os.mkdir(path_joined)
                     interval = []
                 elif bt == 2:
