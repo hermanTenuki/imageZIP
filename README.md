@@ -24,19 +24,20 @@ Then go to python terminal and write ```import imageZIP```.
 
 Then you can use 2 available functions:
 
-- ```imageZIP.zip(path: str, scale: int = 1, color_mode: str = 'heat_map')```;
-- ```imageZIP.unzip(path: str, scale: int = 1, color_mode: str = 'heat_map')```.
+- ```imageZIP.zip(path: str, scale: int = 1, color_mode: str = 'heat')```;
+- ```imageZIP.unzip(path: str, scale: int = 1, color_mode: str = 'heat')```.
 
 Where:
 - ```path``` - path (```str```) to a single file or whole directory to "zip", or image file to "unzip";
 - ```scale```* - scale (```int```) of input or output image file. Default: ```1```;
-- ```color_mode```* - color mode (```str```) of input or output image file. Default: ```"heat_map"```.
+- ```color_mode```* - color mode (```str```) of input or output image file. Default: ```"heat"```.
 
 > *not necessary attributes, which can be omitted.
 
 #### Notes:
 
 - For ```zip``` and ```unzip``` you have to provide same ```scale``` and ```color_mode``` settings;
+- Available ```color_mode```s are: ```bw```, ```heat```, ```heat_toxic```, ```rainbow```, ```red```, ```blue```;
 - ```scale``` is have to be ```int >= 1```;
 - ```path``` can be absolute or relative;
-- Available ```color_mode```s are: ```bw```, ```heat_map```, ```heat_map_toxic```.
+- If a good rectangle image can't be created, output image will be a square with some empty pixels at the end.

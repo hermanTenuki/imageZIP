@@ -88,6 +88,7 @@ class TestBehavior(unittest.TestCase):
         with open(path_image_file, 'rb') as file:
             image_file_new = file.read()
         self.assertEqual(image_file_new, image_file)
+        self.assertFalse(os.path.exists('test folder\\0') and os.path.isdir('test folder\\0'))
 
         os.remove(zip_path)
 
@@ -154,16 +155,21 @@ class TestSettings(unittest.TestCase):
             self._test_with_settings(scale=0)
         with self.assertRaises(TypeError):
             self._test_with_settings(scale=1.2)
-        self._test_with_settings(scale=8)
+        self._test_with_settings(scale=4)
 
     def test_colors(self):
         with self.assertRaises(AttributeError):
             self._test_with_settings(color_mode='random123123')
         self._test_with_settings(color_mode='bw')
+        self._test_with_settings(color_mode='rainbow')
+        self._test_with_settings(color_mode='RaInBow')  # Test char cases
+        self._test_with_settings(color_mode='red')
+        self._test_with_settings(color_mode='blue')
+        self._test_with_settings(color_mode='heat')
+        self._test_with_settings(color_mode='heat_toxic')
         self._test_with_settings(color_mode='heat_map')
         self._test_with_settings(color_mode='heat_map_toxic')
 
 
 if __name__ == '__main__':
-    # imageZIP.unzip('tests/test folder_zip.png')
     unittest.main()

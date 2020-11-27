@@ -2,7 +2,6 @@ from PIL import Image
 import io
 import os
 import math
-from pathlib import Path
 from sys import platform
 
 Image.MAX_IMAGE_PIXELS = None
@@ -14,13 +13,15 @@ def _calculate_color(num, color_mode: str):
     Calculate color for input byte, represented as 0<=int<=255 (or special float code)
     """
 
+    color_max = 255
+
     if type(num) == float:
         if num == 0.:
             return 255, 250, 255
         elif num == 1.:
             return 5, 0, 5
 
-    if color_mode == 'heat_map_toxic':
+    if color_mode in ['heat_toxic', 'heat_map_toxic']:
         # original num is always be 0 <= num <= 255 (it's actually 256 different bytes)
         # by multiplying num, we are getting wider range of colors
         num *= 4
@@ -31,29 +32,63 @@ def _calculate_color(num, color_mode: str):
         # Don't forget that 0 counts, so full range from color_min to color_max is 256, not 255
         color_min = 0
 
-    elif color_mode == 'heat_map':
+    elif color_mode in ['heat', 'heat_map']:
         num *= 3
         palette1 = 192
         color_min = 20
     elif color_mode == 'bw':
         return num, num, num
+    elif color_mode == 'rainbow':
+        num *= 5
+        palette1 = 183  # imperfect, actually 182.85
+        color_min = 20
+    elif color_mode == 'red':
+        return color_max, color_max-num, color_max-num
+    elif color_mode == 'blue':
+        return color_max-num, color_max-num, color_max
     else:
         raise AttributeError(f'"{color_mode}" color_mode does not exist.')
 
     color_max = color_min + palette1 - 1
     palette2 = palette1 * 2
     palette3 = palette2 + palette1
-    if num < palette1:
-        return color_min, color_min + num, color_max
-    elif num < palette2:
-        num -= palette1
-        return color_min, color_max, color_max - num
-    elif num < palette3:
-        num -= palette2
-        return color_min + num, color_max, color_min
+
+    if color_mode == 'rainbow':
+        palette4 = palette3 + palette1
+        palette5 = palette4 + palette1
+        palette6 = palette5 + palette1
+        if num < palette1:
+            return color_max, color_max-num, color_max-num
+        if num < palette2:
+            num -= palette1
+            return color_max, color_min+num, color_min
+        elif num < palette3:
+            num -= palette2
+            return color_max-num, color_max, color_min
+        elif num < palette4:
+            num -= palette3
+            return color_min, color_max, color_min+num
+        elif num < palette5:
+            num -= palette4
+            return color_min, color_max-num, color_max
+        elif num < palette6:
+            num -= palette5
+            return color_min + num, color_min, color_max
+        else:
+            num -= palette6
+            return color_max-num, color_min, color_max-num
     else:
-        num -= palette3
-        return color_max, color_max - num, color_min
+        if num < palette1:
+            return color_min, color_min + num, color_max
+        elif num < palette2:
+            num -= palette1
+            return color_min, color_max, color_max - num
+        elif num < palette3:
+            num -= palette2
+            return color_min + num, color_max, color_min
+        else:
+            num -= palette3
+            return color_max, color_max - num, color_min
 
 
 def _calculate_sizes(multiplier, perimeter):
@@ -169,10 +204,14 @@ def draw_bytes_as_image(bts, color_mode, scale, **kwargs):
 
 def img_save(img, path, **kwargs):
     """
-    Save final img
+    Save final image
     """
 
     path = os.path.normpath(path)
+
+    if not ON_WINDOWS:
+        path = path.replace(os.sep, '/').replace('\\', '/')
+
     img.save(path + '_zip.png')
 
 
@@ -233,16 +272,37 @@ def encrypt_hub(path, **kwargs):
 
 def zip(path: str,
         scale: int = 1,
-        color_mode: str = 'heat_map'):
+        color_mode: str = 'heat'):
+    """
+    Encrypt (zip) chosen file or whole directory into a single image file.
+    :param path: Path to a single file or whole directory to "zip". Can be absolute or relative.
+    :param scale: Scale of output image file. Default: 1;
+    :param color_mode: Color mode of output image file.
+    Available color_mode's are: "bw", "heat", "heat_toxic", "rainbow", "red", "blue".
+    Default: "heat".
+    """
+
+    color_mode = color_mode.lower()
+
     encrypt_hub(path=path, scale=scale, color_mode=color_mode)
 
 
 def unzip(path: str,
           scale: int = 1,
-          color_mode: str = 'heat_map'):
+          color_mode: str = 'heat'):
+    """
+    Decrypt (unzip) files from an image file.
+    :param path: Path to an image file to "unzip". Can be absolute or relative.
+    :param scale: Scale of input image file. Default: 1;
+    :param color_mode: Color mode of input image file.
+    Available color_mode's are: "bw", "heat", "heat_toxic", "rainbow", "red", "blue".
+    Default: "heat".
+    """
     if os.path.isdir(path):
         file_chosen = False
     else:
         file_chosen = True
+
+    color_mode = color_mode.lower()
 
     decrypt_image(path=path, scale=scale, color_mode=color_mode, file_chosen=file_chosen)
