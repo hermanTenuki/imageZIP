@@ -278,7 +278,7 @@ def zip(path: str,
     :param path: Path to a single file or whole directory to "zip". Can be absolute or relative.
     :param scale: Scale of output image file. Default: 1;
     :param color_mode: Color mode of output image file.
-    Available color_mode's are: "heat", "heat_toxic", "bw".
+    Available color_mode's are: "bw", "heat", "heat_toxic", "rainbow", "red", "blue".
     Default: "heat".
     """
 
@@ -295,7 +295,7 @@ def unzip(path: str,
     :param path: Path to an image file to "unzip". Can be absolute or relative.
     :param scale: Scale of input image file. Default: 1;
     :param color_mode: Color mode of input image file.
-    Available color_mode's are: "heat", "heat_toxic", "bw".
+    Available color_mode's are: "bw", "heat", "heat_toxic", "rainbow", "red", "blue".
     Default: "heat".
     """
     if os.path.isdir(path):

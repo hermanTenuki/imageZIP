@@ -39,4 +39,4 @@ Where:
 - For ```zip``` and ```unzip``` you have to provide same ```scale``` and ```color_mode``` settings;
 - ```scale``` is have to be ```int >= 1```;
 - ```path``` can be absolute or relative;
-- Available ```color_mode```s are: ```bw```, ```heat```, ```heat_toxic```.
+- Available ```color_mode```s are: ```bw```, ```heat```, ```heat_toxic```, ```rainbow```, ```red```, ```blue```.
