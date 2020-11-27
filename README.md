@@ -37,6 +37,7 @@ Where:
 #### Notes:
 
 - For ```zip``` and ```unzip``` you have to provide same ```scale``` and ```color_mode``` settings;
+- Available ```color_mode```s are: ```bw```, ```heat```, ```heat_toxic```, ```rainbow```, ```red```, ```blue```;
 - ```scale``` is have to be ```int >= 1```;
 - ```path``` can be absolute or relative;
-- Available ```color_mode```s are: ```bw```, ```heat```, ```heat_toxic```, ```rainbow```, ```red```, ```blue```.
+- If a good rectangle image can't be created, output image will be a square with some empty pixels at the end.
