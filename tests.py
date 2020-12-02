@@ -128,6 +128,12 @@ class TestBehavior(unittest.TestCase):
         else:
             shutil.rmtree('/test_imageZIP/', ignore_errors=True)
 
+    def test_unicode_LEFT_TO_RIGHT_EMBEDDING(self):
+        path = '‪C/Users/An/Un/Existing/Route123123/'
+
+        with self.assertRaises(FileNotFoundError):
+            imageZIP.zip(path)
+
 
 class TestSettings(unittest.TestCase):
     def _test_with_settings(self, *args, **kwargs):
