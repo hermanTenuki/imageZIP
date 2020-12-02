@@ -43,9 +43,9 @@ def _calculate_color(num, color_mode: str):
         palette1 = 183  # imperfect, actually 182.85
         color_min = 20
     elif color_mode == 'red':
-        return color_max, color_max-num, color_max-num
+        return color_max, color_max - num, color_max - num
     elif color_mode == 'blue':
-        return color_max-num, color_max-num, color_max
+        return color_max - num, color_max - num, color_max
     else:
         raise AttributeError(f'"{color_mode}" color_mode does not exist.')
 
@@ -58,25 +58,25 @@ def _calculate_color(num, color_mode: str):
         palette5 = palette4 + palette1
         palette6 = palette5 + palette1
         if num < palette1:
-            return color_max, color_max-num, color_max-num
+            return color_max, color_max - num, color_max - num
         if num < palette2:
             num -= palette1
-            return color_max, color_min+num, color_min
+            return color_max, color_min + num, color_min
         elif num < palette3:
             num -= palette2
-            return color_max-num, color_max, color_min
+            return color_max - num, color_max, color_min
         elif num < palette4:
             num -= palette3
-            return color_min, color_max, color_min+num
+            return color_min, color_max, color_min + num
         elif num < palette5:
             num -= palette4
-            return color_min, color_max-num, color_max
+            return color_min, color_max - num, color_max
         elif num < palette6:
             num -= palette5
             return color_min + num, color_min, color_max
         else:
             num -= palette6
-            return color_max-num, color_min, color_max-num
+            return color_max - num, color_min, color_max - num
     else:
         if num < palette1:
             return color_min, color_min + num, color_max
@@ -107,7 +107,7 @@ def _calculate_sizes(multiplier, perimeter):
     return mult_orig, mult_orig
 
 
-def decrypt_image(path, color_mode, scale, file_chosen):
+def decrypt_image(path, color_mode, scale):
     """
     Unzips files and directories from an image file (path)
     """
@@ -268,6 +268,12 @@ def encrypt_hub(path, **kwargs):
     img_save(img=img, **kwargs, path=path)
 
 
+def validate_path(path):
+    if path[0] == u'\u202a':
+        return path[1:]
+    return path
+
+
 # EXPORTED FUNCTIONS
 
 def zip(path: str,
@@ -284,6 +290,8 @@ def zip(path: str,
 
     color_mode = color_mode.lower()
 
+    path = validate_path(path)
+
     encrypt_hub(path=path, scale=scale, color_mode=color_mode)
 
 
@@ -298,11 +306,9 @@ def unzip(path: str,
     Available color_mode's are: "bw", "heat", "heat_toxic", "rainbow", "red", "blue".
     Default: "heat".
     """
-    if os.path.isdir(path):
-        file_chosen = False
-    else:
-        file_chosen = True
 
     color_mode = color_mode.lower()
 
-    decrypt_image(path=path, scale=scale, color_mode=color_mode, file_chosen=file_chosen)
+    path = validate_path(path)
+
+    decrypt_image(path=path, scale=scale, color_mode=color_mode)

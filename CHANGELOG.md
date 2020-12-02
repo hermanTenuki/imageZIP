@@ -1,6 +1,11 @@
 Change Log
 =========================
 
+3.1 (02.12.2020)
+-------------------------
+- Fixed "OSError" while copy-pasting path from windows explorer;
+- Removed unused "file_chosen" attribute.
+
 3 (27.11.2020)
 -------------------------
 - Linux path fix for an output image file;
